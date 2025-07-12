@@ -4,6 +4,7 @@ import Container from './ui/Container';
 const Hero = () => {
     return (
         <section className='bg-indigo-50'>
+            {/* <VantaDotsBackground/> */}
             <Container>
                 <div>
                     <div className="min-h-screen flex items-center justify-center ">
