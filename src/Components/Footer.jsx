@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 
 const Footer = () => {
   return (
-    <footer className="bg-indigo-950 text-indigo-100 py-10 mt-20">
+    <footer className="bg-indigo-950 text-indigo-100 py-10 ">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
           {/* Logo/Brand */}

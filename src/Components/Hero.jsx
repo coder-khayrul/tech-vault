@@ -1,10 +1,11 @@
 import React from 'react';
 import Container from './ui/Container';
-
 const Hero = () => {
+
+
+
     return (
-        <section className='bg-indigo-50'>
-            {/* <VantaDotsBackground/> */}
+        <section className='bg-indigo-50 h-screen' >
             <Container>
                 <div>
                     <div className="min-h-screen flex items-center justify-center ">
@@ -22,7 +23,7 @@ const Hero = () => {
                                 <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition">
                                     See how it works
                                 </button>
-                                <button className="bg-transparent border border-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                                <button className="bg-transparent border border-indigo-600 hover:bg-indigo-700 text-indigo-700 font-bold py-3 px-6 rounded-lg transition duration-700 hover:text-white ">
                                     Schedule a Demo
                                 </button>
                             </div>

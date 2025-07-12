@@ -66,8 +66,8 @@ const Header = () => {
                         <NavigationMenu>
                             <NavigationMenuList>
                                 {
-                                    navLinks.map(item => (
-                                        <NavigationMenuItem>
+                                    navLinks.map((item,index) => (
+                                        <NavigationMenuItem key={index}>
                                             {item}
                                         </NavigationMenuItem>
                                     ))
