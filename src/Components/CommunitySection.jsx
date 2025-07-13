@@ -32,7 +32,7 @@ const CommunitySection = () => {
             <div>
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
                 Join Our Thriving
-                <span className="block text-indigo-700">Maker Community</span>
+                <span className="block text-indigo-500">Maker Community</span>
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Connect with thousands of innovative makers, developers, and entrepreneurs who are 
@@ -66,7 +66,7 @@ const CommunitySection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
             >
-              <Button size="lg" className="bg-indigo-700 hover:bg-indigo-700/90 font-semibold px-8">
+              <Button size="lg" className="bg-indigo-500 hover:bg-indigo-500/90 font-semibold px-8">
                 Join Community
               </Button>
               <Button variant="outline" size="lg" className="font-semibold px-8">
