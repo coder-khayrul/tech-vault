@@ -30,11 +30,11 @@ const CommunitySection = () => {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-indigo-950 mb-6">
                 Join Our Thriving
                 <span className="block text-indigo-500">Maker Community</span>
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg text-indigo-950 leading-relaxed">
                 Connect with thousands of innovative makers, developers, and entrepreneurs who are 
                 building the future of technology. Share your creations, get feedback, and discover 
                 amazing products from creators around the world.
@@ -52,8 +52,8 @@ const CommunitySection = () => {
                   <Card className="border-0 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                     <CardContent className="p-4 text-center">
                       <stat.icon className={`h-8 w-8 mx-auto mb-2 ${stat.color}`} />
-                      <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                      <div className="text-sm text-muted-foreground">{stat.label}</div>
+                      <div className="text-2xl font-bold text-indigo-950">{stat.value}</div>
+                      <div className="text-sm text-indigo-950">{stat.label}</div>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -66,12 +66,6 @@ const CommunitySection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
             >
-              <Button size="lg" className="bg-indigo-500 hover:bg-indigo-500/90 font-semibold px-8">
-                Join Community
-              </Button>
-              <Button variant="outline" size="lg" className="font-semibold px-8">
-                Learn More
-              </Button>
             </motion.div>
           </motion.div>
           

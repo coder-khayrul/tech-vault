@@ -1,16 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 
 @import "tailwindcss";
-
 @import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
 
 *{
    font-family: "Space Grotesk", sans-serif;
 }
-.swiper-slide-active .animation-body{
+.swiper-slide-active .fade-left{
+   animation: fade-left 2s ease-in  forwards alternate;
+}
+.swiper-slide-active .fade-right{
+   animation: fade-right 2s ease-in  forwards alternate;
+}
+.swiper-slide-active .animation-box{
    animation: zoom 2s ease-in  forwards alternate;
+}
+.swiper-slide-active .animation-body{
+   animation: fade-bottom 2s ease-in  forwards alternate;
 }
 .swiper-slide-active .animation-text{
    animation: fade-top 2s ease-in  forwards alternate;
@@ -25,7 +32,7 @@
       opacity: 1;
    }
 }
-@keyframes zoom{
+@keyframes fade-bottom{
   0%{
       transform: translateY(20px);
       opacity: 0;
@@ -35,6 +42,290 @@
       opacity: 1;
    }
 }
+@keyframes zoom{
+  0%{
+      transform: translateY(-20px) scale(.5) ;
+      opacity: 0;
+   }
+   100%{
+      transform: translateY(0px) scale(1);
+      opacity: 1;
+   }
+}
+@keyframes fade-left{
+  0%{
+      transform: translateX(-100px);
+      opacity: 0;
+   }
+   100%{
+      transform: translateY(0px) scale(1);
+      opacity: 1;
+   }
+}
+@keyframes fade-right{
+  0%{
+      transform: translateX(100px);
+      opacity: 0;
+   }
+   100%{
+      transform: translateY(0px) scale(1);
+      opacity: 1;
+   }
+}
+.swiper-pagination-bullet {
+  background: #9f9dff;
+  width: 8px !important;
+  height: 15px !important;
+  border-radius: 3px !important;
+  opacity: 1;
+  margin: 0 4px;
+  transition: 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  background: #615FFF !important;
+  /* your active dot color */
+  height: 25px !important;
+}
+
+/**style for loader***/
+/* From Uiverse.io by StealthWorm */ 
+
+/**clip path style*/
+.clip-diagonal{
+  clip-path: polygon(41% 0, 54% 12%, 100% 12%, 100% 76%, 100% 100%, 0 100%, 0 89%, 0% 43%, 0 0);
+}
+.primary-shadow:hover{
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 18px 50px -10px;
+  transition: .6s;
+}
+
+.loader {
+  margin: 0 auto;
+  display: flex;
+  width: 12rem;
+  height: 12rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  border-radius: 50%;
+  border: 0.4rem solid #615FFF;
+}
+
+.loader-container[class*="1"] {
+  animation-delay: 1s;
+}
+
+.loader-container[class*="2"] {
+  animation-delay: 1.3s;
+}
+
+.loader-container[class*="3"] {
+  animation-delay: 1.6s;
+}
+
+.loader-container[class*="4"] {
+  animation-delay: 1.9s;
+}
+
+.tars {
+  z-index: 0;
+  position: absolute;
+  height: 100px;
+  width: 130px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  transform-style: preserve-3d;
+  animation: rotateX3D 6s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.loader-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: rotateY3D 3s ease-in infinite both;
+}
+
+.shape {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  position: relative;
+  z-index: -1;
+}
+
+.shape div {
+  display: block;
+  position: absolute;
+  text-align: center;
+}
+
+.loader-container:nth-child(2) .f::after,
+.loader-container:nth-child(3) .f::after {
+  position: absolute;
+  content: '';
+  width: 100%;
+  z-index: -1;
+  height: 20px;
+  background-image: radial-gradient(#54ff6e 2px, transparent 1%);
+  background-size: 20px 5px;
+  left: 0;
+  top: 20%;
+  border: 0;
+  animation: animMove 2s linear infinite alternate-reverse;
+  overflow: hidden;
+}
+
+.loader-container:nth-child(2) .f::before,
+.loader-container:nth-child(3) .f::before {
+  position: absolute;
+  content: '';
+  width: 85%;
+  z-index: -1;
+  height: 20px;
+  left: 0;
+  top: 20%;
+  border: 0;
+  background: #181818;
+  border: 2px solid #615FFF;
+  overflow: hidden;
+}
+
+.loader-container:nth-child(1),
+.loader-container:nth-child(4) {
+  & .f::before,
+  & .r::before,
+  & .l::before {
+    position: absolute;
+  content: '';
+  width: 95%;
+  height: 5px;
+  left: 0;
+  top: 25%;
+  border: 1px solid #615FFF;
+  overflow: hidden;
+}
+}
+
+.loader-container:nth-child(1) .b::before,
+.loader-container:nth-child(4) .b::before {
+  position: absolute;
+  content: '';
+  width: 95%;
+  z-index: -1;
+  height: 5px;
+  left: 0;
+  top: 69%;
+  border: 0;
+  border: 1px solid #615FFF;
+  overflow: hidden;
+}
+
+.f {
+  transform: rotateY(0deg) translateZ(15px);
+  border-radius: 2px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.b {
+  transform: rotateX(180deg) translateZ(15px);
+  border-radius: 2px;
+}
+
+.f,.b {
+  width: 30px;
+  height: 100px;
+  background: #1E1A4D;
+  box-shadow: inset 0 0 0 2px #615FFF;
+  border: 2px solid #615FFF;
+}
+
+.l {
+  transform: rotateY(-90deg) translateZ(0px);
+  border-radius: 2px;
+}
+
+.r {
+  transform: rotateY(90deg) translateZ(-30px);
+  border-radius: 2px;
+}
+
+.l,.r {
+  width: 30px;
+  height: 100px;
+  left: 15px;
+  position: relative;
+  z-index: -1;
+  background: #1E1A4D;
+  box-shadow: inset 0 0 0 2px #615FFF;
+  border: 2px solid #615FFF;
+}
+
+.t {
+  transform: rotateX(90deg) translateZ(40px);
+  border-radius: 2px;
+}
+
+.bot {
+  transform: rotateX(-90deg) translateZ(60px);
+  border-radius: 2px;
+}
+
+.t,.bot {
+  width: 30px;
+  height: 30px;
+  top: 25px;
+  position: relative;
+  z-index: -1;
+  background: #1E1A4D;
+  box-shadow: inset 0 0 0 2px #615FFF;
+  border: 2px solid #615FFF;
+}
+
+@keyframes rotateY3D {
+  0% {
+    transform: translateZ(0px) rotateX(0);
+  }
+
+  50% {
+    transform: translateZ(0px) rotateX(-360deg);
+  }
+
+  100% {
+    transform: translateZ(0px) rotateX(-360deg);
+  }
+}
+
+@keyframes rotateX3D {
+  0% {
+    transform: translateX(0px) rotateY(0);
+  }
+
+  50% {
+    transform: translateX(0px) rotateY(180deg);
+  }
+
+  100% {
+    transform: translateX(0px) rotateY(360deg);
+  }
+}
+
+@keyframes animMove {
+  0% {
+    transform: translateX(20px);
+  }
+
+  100% {
+    transform: translateX(-10px);
+  }
+}
+/**style for loader end****/
 
 @theme inline {
    --radius-sm: calc(var(--radius) - 4px);
