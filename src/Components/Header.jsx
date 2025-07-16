@@ -28,7 +28,6 @@ import { AuthContext } from '../Context/AuthContext';
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { user, userSignOut } = use(AuthContext)
-    console.log(user)
     const navigate = useNavigate()
     const handleSignOut = () => {
         userSignOut()

@@ -6,7 +6,7 @@ import { useLoaderData } from 'react-router';
 
 const FeaturedProduct = () => {
 const products = useLoaderData()
-console.log(products)
+
     return (
         <section className='py-20 bg-indigo-950'>
             <Container>
