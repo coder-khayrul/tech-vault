@@ -152,7 +152,7 @@ const Register = () => {
                                             Google</span>
                                     </div>
                                 </button>
-                                <p className="mt-8 text-txt2">Already have account? <Link to={"/login"} className="text-two hover:underline font-semibold">Login now</Link></p>
+                                <p className="mt-8 text-txt2">Already have account? <Link to={"/login"} className="text-indigo-950 hover:underline font-semibold">Login now</Link></p>
                             </div>
                         </div>
                     </div>

@@ -65,7 +65,7 @@ const Header = () => {
                         <NavigationMenu>
                             <NavigationMenuList>
                                 {
-                                    navLinks.map((item,index) => (
+                                    navLinks.map((item, index) => (
                                         <NavigationMenuItem key={index}>
                                             {item}
                                         </NavigationMenuItem>
@@ -116,9 +116,13 @@ const Header = () => {
                                         </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator className="bg-gray-200" />
+
                                     <DropdownMenuItem className="text-red-600 hover:bg-gray-100">
                                         <HiLogout className="mr-2 h-4 w-4" />
-                                        Logout
+                                        <button onClick={() => { handleSignOut(); }}>
+                                            Logout
+                                        </button>
+
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
