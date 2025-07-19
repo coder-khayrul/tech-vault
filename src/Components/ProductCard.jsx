@@ -4,9 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { BiUpvote } from "react-icons/bi";
 import { useState } from "react";
 import TechOne from "../assets/image/tech-1.jpg"
-const ProductCard = ({
-  id,
-  name,
+import { Link } from "react-router";
+const ProductCard = ({product}) => {
+  const {
+  _id,
+  productName,
   description,
   image,
   tags,
@@ -14,7 +16,7 @@ const ProductCard = ({
   isOwner = false,
   hasVoted = false,
   onVote,
-}) => {
+} = product
   const [currentVotes, setCurrentVotes] = useState(votes);
   const [userHasVoted, setUserHasVoted] = useState(hasVoted);
 
@@ -23,7 +25,7 @@ const ProductCard = ({
 
     setCurrentVotes(prev => prev + 1);
     setUserHasVoted(true);
-    onVote?.(id);
+    onVote?.(_id);
   };
 
 
@@ -31,12 +33,12 @@ const ProductCard = ({
   return (
     <div className="relative clip-diagonal p-[1px] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 bg-indigo-900 rounded-lg ">
       <Card
-        className="group relative overflow-hidden clip-diagonal bg-indigo-950 hover:bg-indigo-00 cursor-pointer duration-700 "
+        className="group relative overflow-h_idden clip-diagonal bg-indigo-950 hover:bg-indigo-00 cursor-pointer duration-700 "
       >
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/8 via-transparent to-indigo-400-glow/5 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
 
         <CardContent className="p-2 relative">
-          <div className="overflow-hidden flex justify-between items-baseline p-5">
+          <div className="overflow-h_idden flex justify-between items-baseline p-5">
             <img
               src={TechOne}
               alt={name}
@@ -58,9 +60,11 @@ const ProductCard = ({
           </div>
           <div className="px-5 pb-3">
             <div className="mb-3">
+              <Link to={`/products/${_id}`}>
               <h3 className="text-lg font-semibold text-white group-hover:text-indigo-400 transition-colors cursor-pointer line-clamp-1 duration-700">
-                {name}
+                {productName}
               </h3>
+              </Link>
             </div>
 
             <p className="text-indigo-200 text-sm mb-4 line-clamp-2 leading-relaxed">

@@ -26,11 +26,11 @@ console.log(products)
                 <div>
                     <form className='relative flex items-center w-full'>
                         <input
-                            className='h-[50px] w-full border border-indigo-200 rounded-[50px] px-5 focus:outline-1 outline-indigo-200 outline-offset-0 focus:outline-offset-4 duration-700 '
+                            className='h-[50px] w-full border border-indigo-200 rounded-[50px] px-5 focus:outline-1 outline-indigo-200 outline-offset-0 focus:outline-offset-4 duration-700 text-white'
                             onChange={handleSearchInput}
                             type="search"
                             name="postSearch"
-                            placeholder='Search volunteer opportunities by title'
+                            placeholder='Search product by title'
                             id="postSearch"
                             required />
                         <div className=' text-indigo-400 grid place-items-center absolute right-[15px] top-[50%] translate-y-[-50%] duration-700 '>
@@ -44,14 +44,7 @@ console.log(products)
                                 className="animate-slide-up"
                                 style={{ animationDelay: `${index * 0.1}s` }}
                             >
-                                <ProductCard
-                                    id={product.id}
-                                    name={product.name}
-                                    description={product.description}
-                                    image={product.image}
-                                    tags={product.tags}
-                                    votes={product.votes}
-                                />
+                                <ProductCard product={product}/>
                             </div>
                         ))}
                     </div>
