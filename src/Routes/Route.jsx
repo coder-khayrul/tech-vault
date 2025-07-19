@@ -14,12 +14,11 @@ export const router = createBrowserRouter([
            {
             index: true,
             Component: Home,
-            loader: ()=> fetch("http://localhost:3000/products")
+            loader: ()=> fetch("https://app-orbit-server-zeta.vercel.app/products")
            },
            {
             path: "/products",
-            Component: Products,
-            loader: ()=> fetch("http://localhost:3000/products")
+            Component: Products
            },
            {
             path: "/login",

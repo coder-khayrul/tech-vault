@@ -68,7 +68,7 @@ const ProductCard = ({
             </p>
 
             <div className="flex flex-wrap gap-2">
-              {tags.slice(0, 3).map((tag, index) => (
+              {tags?.slice(0, 3).map((tag, index) => (
                 <Badge
                   key={index}
                   variant="secondary"
