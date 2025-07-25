@@ -100,7 +100,7 @@ const ProductDetails = () => {
              Swal.fire({
                 title: "Error!",
                 text: "Please enter a review description.",
-                icon: "Error"
+                icon: "error"
             });
             return;
         }
@@ -125,20 +125,20 @@ const ProductDetails = () => {
        
     };
 
-    const renderStars = (rating, interactive = false, onRatingChange) => {
-        return (
-            <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                        key={star}
-                        className={`w-5 h-5 ${star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'
-                            } ${interactive ? 'cursor-pointer hover:text-yellow-400' : ''}`}
-                        onClick={() => interactive && onRatingChange && onRatingChange(star)}
-                    />
-                ))}
-            </div>
-        );
-    };
+    // const renderStars = (rating, interactive = false, onRatingChange) => {
+    //     return (
+    //         <div className="flex gap-1">
+    //             {[1, 2, 3, 4, 5].map((star) => (
+    //                 <Star
+    //                     key={star}
+    //                     className={`w-5 h-5 ${star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'
+    //                         } ${interactive ? 'cursor-pointer hover:text-yellow-400' : ''}`}
+    //                     onClick={() => interactive && onRatingChange && onRatingChange(star)}
+    //                 />
+    //             ))}
+    //         </div>
+    //     );
+    // };
 
     return (
         <div className="min-h-screen bg-indigo-950">
@@ -244,7 +244,7 @@ const ProductDetails = () => {
                                         <div className="flex-1">
                                             <div className="flex items-center gap-3 mb-2">
                                                 <h4 className="font-semibold text-white">{review.reviewerName}</h4>
-                                                {renderStars(review.rating)}
+                                                {/* {renderStars(review.rating)} */}
                                                 <span className="text-sm text-indigo-200">
                                                     {new Date(review.timestamp).toLocaleDateString()}
                                                 </span>
@@ -278,14 +278,14 @@ const ProductDetails = () => {
                                             alt="Your profile"
                                             className="w-10 h-10 rounded-full object-cover"
                                         />
-                                        <Input id="reviewerImage" value={user?.image} readOnly className="bg-muted" />
+                                        <Input id="reviewerImage" value={user?.image} readOnly className="bg-indigo-200" />
                                     </div>
                                 </div>
                             </div>
 
                             <div>
                                 <Label className="text-white text-sm mb-3" htmlFor="rating">Rating</Label>
-                                <div className="mt-2">{renderStars(rating, true, setRating)}</div>
+                                {/* <div className="mt-2">{renderStars(rating, true, setRating)}</div> */}
                             </div>
 
                             <div>

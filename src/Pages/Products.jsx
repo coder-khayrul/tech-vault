@@ -14,7 +14,6 @@ const Products = () => {
             .then(data => setProducts(data))
             
     }, [searchTerm])
-console.log(products)
 
     const handleSearchInput = (e) => {
         e.preventDefault();
