@@ -40,7 +40,7 @@ const ProductCard = ({product}) => {
         <CardContent className="p-2 relative">
           <div className="overflow-h_idden flex justify-between items-baseline p-5">
             <img
-              src={TechOne}
+              src={image}
               alt={name}
               className="w-20 h-20 object-cover rounded-full ring-3 ring-indigo-400 transition-transform duration-300 ring-offset-2 group-hover:scale-105"
             />
@@ -82,7 +82,7 @@ const ProductCard = ({product}) => {
                 </Badge>
               ))}
               {tags.length > 3 && (
-                <Badge variant="outline" className="text-xs text-muted-foreground">
+                <Badge className="text-xs text-indigo-400 border border-indigo-400 ">
                   +{tags.length - 3}
                 </Badge>
               )}

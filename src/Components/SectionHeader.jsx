@@ -1,5 +1,5 @@
 import React from 'react';
-
+ 
 const SectionHeader = ({title,description,type}) => {
     
     const sectionTitle = title.split("|");

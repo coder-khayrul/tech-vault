@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Container from '../Components/ui/Container';
 import ProductCard from '../Components/ProductCard';
 import { IoSearchOutline } from 'react-icons/io5';
+import SectionHeader from '../Components/SectionHeader';
 
 const Products = () => {
 
@@ -23,9 +24,12 @@ const Products = () => {
         <section className='bg-indigo-950 py-20'>
             <Container>
                 <div>
-                    <form className='relative flex items-center w-full'>
+                    <SectionHeader title={"Explore the Latest| Tech Creations"}
+                    description={"Discover a curated collection of the newest AI tools, software, mobile apps, and web platforms. Search, vote, and support your favorite innovations."}
+                    type={"dark"}/>
+                    <form className='relative flex items-center w-full mb-15'>
                         <input
-                            className='h-[50px] w-full border border-indigo-200 rounded-[50px] px-5 focus:outline-1 outline-indigo-200 outline-offset-0 focus:outline-offset-4 duration-700 text-white'
+                            className='h-[50px] w-full border-2 border-indigo-900 rounded-[50px] px-5 focus:outline-1 outline-indigo-900 outline-offset-0 focus:outline-offset-4 duration-700 text-white'
                             onChange={handleSearchInput}
                             type="search"
                             name="postSearch"

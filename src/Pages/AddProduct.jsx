@@ -10,34 +10,15 @@ import Swal from 'sweetalert2';
 import ButtonBody from '../Components/ui/ButtonBody';
 import SectionHeader from '../Components/SectionHeader';
 import { AuthContext } from '../Context/AuthContext';
+import axios from 'axios';
 
 const AddProduct = () => {
-    const {user} = use(AuthContext)
-    const [formData, setFormData] = useState({
-        productName: '',
-        productImage: null,
-        description: '',
-        tags: '',
-        externalLink: ''
-    });
+    const { user } = use(AuthContext);
     const [imagePreview, setImagePreview] = useState(null);
     const [isDragOver, setIsDragOver] = useState(false);
     const fileInputRef = useRef(null);
 
-
-    const handleInputChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    const handleFileSelect = (file) => {
-        setFormData({
-            ...formData,
-            productImage: file
-        });
-
+    const handleFilePreview = (file) => {
         const reader = new FileReader();
         reader.onload = (e) => {
             setImagePreview(e.target.result);
@@ -45,15 +26,21 @@ const AddProduct = () => {
         reader.readAsDataURL(file);
     };
 
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            handleFilePreview(file);
+        }
+    };
+
     const handleDrop = (e) => {
         e.preventDefault();
         setIsDragOver(false);
-
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            const file = files[0];
-            if (file.type.startsWith('image/')) {
-                handleFileSelect(file);
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            handleFilePreview(file);
+            if (fileInputRef.current) {
+                fileInputRef.current.files = e.dataTransfer.files;
             }
         }
     };
@@ -63,33 +50,25 @@ const AddProduct = () => {
         setIsDragOver(true);
     };
 
-    const handleDragLeave = (e) => {
-        e.preventDefault();
+    const handleDragLeave = () => {
         setIsDragOver(false);
     };
 
-    const handleFileInputChange = (e) => {
-        const files = e.target.files;
-        if (files && files.length > 0) {
-            handleFileSelect(files[0]);
-        }
-    };
-
     const removeImage = () => {
-        setFormData({
-            ...formData,
-            productImage: null
-        });
         setImagePreview(null);
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.productName || !formData.productImage || !formData.description) {
+        const form = e.target;
+        const formData = new FormData(form);
+        const file = formData.get('image');
+
+        if (!formData.get('productName') || !file || !formData.get('description')) {
             Swal.fire({
                 title: 'Error!',
                 text: 'Please fill in all required fields.',
@@ -99,36 +78,67 @@ const AddProduct = () => {
             return;
         }
 
-        console.log('Form submitted:', { ...formData, owner: user });
+        try {
+            // Step 1: Upload image to ImgBB
+            const imageForm = new FormData();
+            imageForm.append("image", file);
 
-        Swal.fire({
-            title: 'Success!',
-            text: 'Product has been submitted for review.',
-            icon: 'success',
-            confirmButtonColor: '#6366f1'
-        });
+            const res = await axios.post(
+                `https://api.imgbb.com/1/upload?expiration=600&key=${import.meta.env.VITE_image_key}`,
+                imageForm
+            );
 
-        setFormData({
-            productName: '',
-            productImage: null,
-            description: '',
-            tags: '',
-            externalLink: ''
-        });
-        setImagePreview(null);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
+            const imageUrl = res.data?.data?.url;
+            console.log(imageUrl)
+            // Step 2: Convert form data to object and replace image
+            const ProductData = Object.fromEntries(formData.entries());
+            ProductData.image = imageUrl;
+            ProductData.ownerName = user?.displayName || '';
+            ProductData.ownerEmail = user?.email || '';
+            ProductData.ownerImage = user?.image || '';
+            ProductData.externalLinks = {
+                github: ProductData.githubLink,
+                website: ProductData.webLink
+            }
+            ProductData.tags = ProductData.tags.split(",").map(tag => tag.trim())
+            ProductData.upvotes = 0;
+            ProductData.status = 'accepted';
+            ProductData.isFeatured = false;
+            ProductData.timestamp = new Date().toISOString();
+
+
+            // Step 3: Send to backend
+            await axios.post("https://app-orbit-server-zeta.vercel.app/products", ProductData);
+
+            Swal.fire({
+                title: 'Success!',
+                text: 'Product submitted successfully.',
+                icon: 'success',
+                confirmButtonColor: '#6366f1'
+            });
+
+            // Step 4: Reset form
+            form.reset();
+            setImagePreview(null);
+        } catch (err) {
+            console.error("Error submitting product:", err);
+            Swal.fire({
+                title: 'Error!',
+                text: 'Something went wrong while submitting the form.',
+                icon: 'error',
+                confirmButtonColor: '#6366f1'
+            });
         }
     };
 
     return (
         <div className="min-h-screen bg-indigo-50 p-6 py-20">
             <div className="max-w-2xl mx-auto">
-                <SectionHeader 
-                type={"light"}
-                title={"Submit Your | Tech Product"}
-                description={"Share your innovation with the community. Submissions go through a short review before appearing live."}
-                ></SectionHeader>
+                <SectionHeader
+                    type="light"
+                    title="Submit Your | Tech Product"
+                    description="Share your innovation with the community. Submissions go through a short review before appearing live."
+                />
 
                 <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
                     <CardHeader className="bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-t-lg">
@@ -141,28 +151,21 @@ const AddProduct = () => {
                     <CardContent className="p-8">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="space-y-2">
-                                <Label htmlFor="productName" className="text-sm font-semibold text-foreground">
-                                    Product Name *
-                                </Label>
+                                <Label htmlFor="productName">Product Name *</Label>
                                 <Input
                                     id="productName"
                                     name="productName"
-                                    value={formData.productName}
-                                    onChange={handleInputChange}
                                     placeholder="Enter product name"
-                                    className="border-indigo-200 focus:border-indigo-500 focus:ring-indigo-500"
                                     required
                                 />
                             </div>
 
                             <div className="space-y-2">
-                                <Label className="text-sm font-semibold text-foreground">
-                                    Product Image *
-                                </Label>
+                                <Label>Product Image *</Label>
                                 <div
                                     className={`relative border-2 border-dashed rounded-lg p-6 transition-all duration-200 cursor-pointer ${isDragOver
-                                            ? 'border-indigo-500 bg-indigo-50'
-                                            : 'border-indigo-200 hover:border-indigo-400 hover:bg-indigo-25'
+                                        ? 'border-indigo-500 bg-indigo-50'
+                                        : 'border-indigo-200 hover:border-indigo-400 hover:bg-indigo-25'
                                         }`}
                                     onDrop={handleDrop}
                                     onDragOver={handleDragOver}
@@ -172,17 +175,19 @@ const AddProduct = () => {
                                     <input
                                         ref={fileInputRef}
                                         type="file"
+                                        name="image"
                                         accept="image/*"
                                         onChange={handleFileInputChange}
                                         className="hidden"
+                                        required
                                     />
 
                                     {imagePreview ? (
                                         <div className="relative">
                                             <img
                                                 src={imagePreview}
-                                                alt="Product preview"
-                                                className="w-full h-40 rounded-lg object-cover"
+                                                alt="Preview"
+                                                className="w-full h-40 object-cover rounded-lg"
                                             />
                                             <Button
                                                 type="button"
@@ -200,52 +205,43 @@ const AddProduct = () => {
                                     ) : (
                                         <div className="text-center">
                                             <FiUpload className="w-12 h-12 text-indigo-400 mx-auto mb-4" />
-                                            <div className="space-y-2">
-                                                <p className="text-lg font-medium text-indigo-600">
-                                                    Click to upload or drag and drop
-                                                </p>
-                                                <p className="text-sm text-muted-foreground">
-                                                    PNG, JPG, GIF up to 10MB
-                                                </p>
-                                            </div>
+                                            <p className="text-lg font-medium text-indigo-600">
+                                                Click to upload or drag and drop
+                                            </p>
+                                            <p className="text-sm text-muted-foreground">
+                                                PNG, JPG, GIF up to 10MB
+                                            </p>
                                         </div>
                                     )}
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="description" className="text-sm font-semibold text-foreground">
-                                    Description *
-                                </Label>
+                                <Label htmlFor="description">Description *</Label>
                                 <Textarea
                                     id="description"
                                     name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
                                     placeholder="Describe your product..."
-                                    rows={7}
-                                    className="border-indigo-200 focus:border-indigo-500 focus:ring-indigo-500"
+                                    rows={6}
                                     required
                                 />
                             </div>
 
                             <div className="space-y-4">
-                                <Label className="text-sm font-semibold text-foreground">
-                                    Product Owner Info
-                                </Label>
+                                <Label>Product Owner Info</Label>
                                 <Card className="bg-indigo-50 border-indigo-200">
                                     <CardContent className="p-4">
-                                        <div className="flex items-center space-x-4">
+                                        <div className="flex items-center gap-4">
                                             <Avatar className="w-16 h-16 border-2 border-indigo-300">
-                                                <AvatarImage src={user?.image} alt={user?.name} />
+                                                <AvatarImage src={user?.image} alt={user?.displayName} />
                                                 <AvatarFallback className="bg-indigo-500 text-white">
-                                                    {user?.name.split(' ').map(n => n[0]).join('')}
+                                                    {user?.displayName?.split(' ').map(n => n[0]).join('')}
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div className="space-y-1">
                                                 <div className="flex items-center gap-2">
                                                     <FiUser className="w-4 h-4 text-indigo-600" />
-                                                    <span className="font-medium text-indigo-900">{user?.name}</span>
+                                                    <span className="font-medium text-indigo-900">{user?.displayName}</span>
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     <FiMail className="w-4 h-4 text-indigo-600" />
@@ -258,48 +254,48 @@ const AddProduct = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="tags" className="text-sm font-semibold text-foreground">
-                                    Tags
-                                </Label>
+                                <Label htmlFor="tags">Tags</Label>
                                 <div className="relative">
                                     <FiTag className="absolute left-3 top-3 w-5 h-5 text-indigo-500" />
                                     <Input
                                         id="tags"
                                         name="tags"
-                                        value={formData.tags}
-                                        onChange={handleInputChange}
                                         placeholder="React, JavaScript, Web App (comma separated)"
-                                        className="pl-12 border-indigo-200 focus:border-indigo-500 focus:ring-indigo-500"
+                                        className="pl-12"
                                     />
                                 </div>
-                                <p className="text-xs text-muted-foreground">
-                                    Separate tags with commas
-                                </p>
+                                <p className="text-xs text-muted-foreground">Separate tags with commas</p>
                             </div>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="externalLink" className="text-sm font-semibold text-foreground">
-                                    External Link
-                                </Label>
-                                <div className="relative">
-                                    <FiLink className="absolute left-3 top-3 w-5 h-5 text-indigo-500" />
-                                    <Input
-                                        id="externalLink"
-                                        name="externalLink"
-                                        value={formData.externalLink}
-                                        onChange={handleInputChange}
-                                        placeholder="https://yourproduct.com"
-                                        className="pl-12 border-indigo-200 focus:border-indigo-500 focus:ring-indigo-500"
-                                    />
+                            <div className="space-y-2 flex flex-col gap-3">
+                                <h3 className='font-semibold'>External Links</h3>
+                                <div className="space-y-2">
+                                    <Label htmlFor="githubLink">Github Link *</Label>
+                                    <div className="relative">
+                                        <FiLink className="absolute left-3 top-3 w-5 h-5 text-indigo-500" />
+                                        <Input
+                                            name="githubLink"
+                                            placeholder="https://github.io/name"
+                                            className="pl-12"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="githubLink">Website Link *</Label>
+                                    <div className="relative">
+                                        <FiLink className="absolute left-3 top-3 w-5 h-5 text-indigo-500" />
+                                        <Input
+                                            name="webLink"
+                                            placeholder="https://yourproduct.com"
+                                            className="pl-12"
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                            <div className={'flex items-center justify-center'}>
-                                <ButtonBody
-                                >
-                                    Submit Product for Review
-                                </ButtonBody>
-                            </div>
 
+                            <div className="flex justify-center">
+                                <ButtonBody>Submit Product for Review</ButtonBody>
+                            </div>
                         </form>
                     </CardContent>
                 </Card>
