@@ -2,31 +2,56 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BiUpvote } from "react-icons/bi";
-import { useState } from "react";
-import TechOne from "../assets/image/tech-1.jpg"
-import { Link } from "react-router";
-const ProductCard = ({product}) => {
+import { use, useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { AuthContext } from "../Context/AuthContext";
+import axios from "axios";
+import Swal from "sweetalert2";
+const ProductCard = ({ product }) => {
   const {
-  _id,
-  productName,
-  description,
-  image,
-  tags,
-  votes,
-  isOwner = false,
-  hasVoted = false,
-  onVote,
-} = product
-  const [currentVotes, setCurrentVotes] = useState(votes);
-  const [userHasVoted, setUserHasVoted] = useState(hasVoted);
+    _id,
+    productName,
+    description,
+    image,
+    tags,
+    ownerEmail,
+    isOwner = false,
+    upvotes
+  } = product
+  const { user } = use(AuthContext);
+  const navigate = useNavigate();
 
-  const handleVote = () => {
-    if (isOwner || userHasVoted) return;
+  const [voteCount, setVoteCount] = useState(upvotes ? parseInt(upvotes) : 0);
 
-    setCurrentVotes(prev => prev + 1);
-    setUserHasVoted(true);
-    onVote?.(_id);
+  const handleVoteCount = () => {
+    if (ownerEmail !== user.email) {
+      const newCount = voteCount + 1;
+      setVoteCount(newCount);
+
+      axios.patch(`https://app-orbit-server-zeta.vercel.app/products/${_id}`, {
+        userEmail: user.email // 👈 Add this
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(res => {
+          console.log("Vote recorded:", res.data);
+        })
+        .catch(error => {
+          console.error(error);
+          if (error.response?.data?.message === "User already voted") {
+            alert("You already voted!");
+          }
+        });
+
+    } else {
+      navigate('/login');
+    }
   };
+
+
+
 
 
 
@@ -41,29 +66,28 @@ const ProductCard = ({product}) => {
           <div className="overflow-h_idden flex justify-between items-baseline p-5">
             <img
               src={image}
-              alt={name}
+              alt={productName}
               className="w-20 h-20 object-cover rounded-full ring-3 ring-indigo-400 transition-transform duration-300 ring-offset-2 group-hover:scale-105"
             />
             <Button
-              variant={userHasVoted ? "default" : "border"}
               size="sm"
+              onClick={handleVoteCount}
               className={`flex items-center gap-1 font-medium transition-all duration-200 border border-transparent hover:border-indigo-400 ${isOwner
                 ? 'opacity-50 cursor-not-allowed'
-                : userHasVoted
-                  ? 'bg-indigo-400 text-white'
-                  : 'bg-indigo-400 hover:bg-indigo-950 text-white hover:text-indigo-400 hover:scale-105'
+
+                : 'bg-indigo-400 hover:bg-indigo-950 text-white hover:text-indigo-400 hover:scale-105'
                 }`}
             >
-              <BiUpvote className={`h-4 w-4 transition-transform ${!isOwner && !userHasVoted ? 'scale-110' : ''}`} />
-              {currentVotes}
+              <BiUpvote className={`h-4 w-4 transition-transform`} />
+              {voteCount}
             </Button>
           </div>
           <div className="px-5 pb-3">
             <div className="mb-3">
               <Link to={`/products/${_id}`}>
-              <h3 className="text-lg font-semibold text-white group-hover:text-indigo-400 transition-colors cursor-pointer line-clamp-1 duration-700">
-                {productName}
-              </h3>
+                <h3 className="text-lg font-semibold text-white group-hover:text-indigo-400 transition-colors cursor-pointer line-clamp-1 duration-700">
+                  {productName}
+                </h3>
               </Link>
             </div>
 
