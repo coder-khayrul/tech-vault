@@ -7,6 +7,7 @@ import Login from '../Pages/Login';
 import Register from '../Pages/Register';
 import ProductDetails from '../Pages/ProductDetails';
 import AddProduct from '../Pages/AddProduct';
+import PrivateRoute from './PrivateRoute';
 
 export const router = createBrowserRouter([
     {
@@ -24,11 +25,11 @@ export const router = createBrowserRouter([
            },
            {
             path: "/add-product",
-            Component: AddProduct
+            element: <PrivateRoute><AddProduct></AddProduct></PrivateRoute>
            },
            {
             path: "/products/:id",
-            Component: ProductDetails,
+            element: <PrivateRoute><ProductDetails></ProductDetails></PrivateRoute>,
             loader: ({params}) => fetch(`https://app-orbit-server-zeta.vercel.app/products/${params.id}`)
            },
            {
