@@ -79,7 +79,6 @@ const AddProduct = () => {
         }
 
         try {
-            // Step 1: Upload image to ImgBB
             const imageForm = new FormData();
             imageForm.append("image", file);
 
@@ -89,8 +88,6 @@ const AddProduct = () => {
             );
 
             const imageUrl = res.data?.data?.url;
-            console.log(imageUrl)
-            // Step 2: Convert form data to object and replace image
             const ProductData = Object.fromEntries(formData.entries());
             ProductData.image = imageUrl;
             ProductData.ownerName = user?.displayName || '';
@@ -107,7 +104,6 @@ const AddProduct = () => {
             ProductData.timestamp = new Date().toISOString();
 
 
-            // Step 3: Send to backend
             await axios.post("https://app-orbit-server-zeta.vercel.app/products", ProductData);
 
             Swal.fire({
@@ -117,7 +113,6 @@ const AddProduct = () => {
                 confirmButtonColor: '#6366f1'
             });
 
-            // Step 4: Reset form
             form.reset();
             setImagePreview(null);
         } catch (err) {

@@ -49,45 +49,6 @@ const TrandingProduct = () => {
                   key={product.id}
                   className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
                 >
-                  {/* <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm overflow-hidden">
-                    <div className="relative">
-                      <img
-                        src={product.image}
-                        alt={product.productName}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute top-3 right-3">
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          className="bg-white/90 hover:bg-white text-gray-700 rounded-full"
-                          onClick={() => handleUpvote(product.id)}
-                        >
-                          <BiUpvote className="w-4 h-4 mr-1" />
-                          {product.upvotes}
-                        </Button>
-                      </div>
-                    </div>
-                    <CardContent className="p-6">
-                      <h3 className="font-semibold text-lg text-gray-900 mb-3 group-hover:text-indigo-600 transition-colors">
-                        {product.productName}
-                      </h3>
-                      <p className="text-gray-400 text-sm mb-4 line-clamp-2 leading-relaxed">
-                        {product.description}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {product.tags.map((tag, index) => (
-                          <Badge
-                            key={index}
-                            variant="secondary"
-                            className="bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
-                          >
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card> */}
                   <ProductCard product={product}/>
                 </CarouselItem>
               ))}
