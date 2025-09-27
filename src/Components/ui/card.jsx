@@ -10,7 +10,7 @@ function Card({
     <div
       data-slot="card"
       className={cn(
-        "text-card-foreground flex flex-col gap-6 rounded-lg border-1 p-0 primary-shadow border-indigo-900",
+        "text-card-foreground flex flex-col gap-6 rounded-lg border-1 p-0 primary-shadow border-indigo-900 p-5",
         className
       )}
       {...props} />
@@ -39,7 +39,7 @@ function CardTitle({
   return (
     <div
       data-slot="card-title"
-      className={cn("leading-none font-semibold", className)}
+      className={cn("leading-none font-semibold text-[20px]", className)}
       {...props} />
   );
 }

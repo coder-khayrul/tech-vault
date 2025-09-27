@@ -2,6 +2,7 @@ import React from 'react';
 
 const Loader = () => { 
     return (
+        <div className='h-screen flex item-center justify-center'>
             <div className="loader">
                 <div className="tars">
                     <div className="loader-container 1">
@@ -46,6 +47,8 @@ const Loader = () => {
                     </div>
                 </div>
             </div>
+        </div>
+            
     );
 };
 

@@ -20,30 +20,32 @@ const ProductCard = ({ product }) => {
   } = product
   const { user } = use(AuthContext);
   const navigate = useNavigate();
-
   const [voteCount, setVoteCount] = useState(upvotes ? parseInt(upvotes) : 0);
 
   const handleVoteCount = () => {
-    if (ownerEmail !== user.email) {
-      const newCount = voteCount + 1;
-      setVoteCount(newCount);
 
+    if (ownerEmail !== user.email) {
       axios.patch(`https://app-orbit-server-zeta.vercel.app/products/${_id}`, {
-        userEmail: user.email // 👈 Add this
+        userEmail: user.email
       }, {
         headers: {
           'Content-Type': 'application/json'
         }
       })
         .then(res => {
-          console.log("Vote recorded:", res.data);
+          if (res.data.modifiedCount) {
+            const newCount = voteCount + 1;
+            setVoteCount(newCount);
+          }
         })
         .catch(error => {
-          console.error(error);
-          if (error.response?.data?.message === "User already voted") {
-            alert("You already voted!");
-          }
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `${error.response?.data?.message}`,
+          });
         });
+
 
     } else {
       navigate('/login');

@@ -1,5 +1,5 @@
 import React, { use, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
 import { HiMenu, HiX, HiUser, HiLogout } from 'react-icons/hi';
 import { MdDashboard } from 'react-icons/md';
 import { GoArrowRight } from "react-icons/go";
@@ -36,14 +36,21 @@ const Header = () => {
         navigate("/")
     }
 
-    const navLinks = [
-        <Link className='text-white text-[16px] font-medium mr-8 hover:text-indigo-400 duration-500' to="/">
+    const navLinks = <>
+        <NavLink className='text-white text-[16px] font-medium mr-8 hover:text-indigo-400 duration-500' to="/">
             Home
-        </Link>,
-        <Link className='text-white text-[16px] font-medium hover:text-indigo-400 duration-500' to="/products">
+        </NavLink>,
+        <NavLink className='text-white text-[16px] font-medium mr-8 hover:text-indigo-400 duration-500' to="/products">
             Products
-        </Link>
-    ]
+        </NavLink>
+        {
+            user && <NavLink className='text-white text-[16px] font-medium hover:text-indigo-400 duration-500' to="/add-product">
+            Add Product
+        </NavLink>
+        }
+    </>
+
+
 
     const closeMobileMenu = () => {
         setIsMobileMenuOpen(false);
@@ -65,11 +72,7 @@ const Header = () => {
                         <NavigationMenu>
                             <NavigationMenuList>
                                 {
-                                    navLinks.map((item, index) => (
-                                        <NavigationMenuItem key={index}>
-                                            {item}
-                                        </NavigationMenuItem>
-                                    ))
+                                    navLinks
                                 }
                             </NavigationMenuList>
                         </NavigationMenu>
@@ -110,7 +113,7 @@ const Header = () => {
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator className="bg-gray-200" />
                                     <DropdownMenuItem asChild>
-                                        <Link to="/dashboard" className="flex items-center text-black hover:bg-gray-100">
+                                        <Link to="/dashboard/overview" className="flex items-center text-black hover:bg-gray-100">
                                             <MdDashboard className="mr-2 h-4 w-4" />
                                             Dashboard
                                         </Link>

@@ -8,6 +8,10 @@ import Register from '../Pages/Register';
 import ProductDetails from '../Pages/ProductDetails';
 import AddProduct from '../Pages/AddProduct';
 import PrivateRoute from './PrivateRoute';
+import { Dashboard } from '../Layouts/Dashboard';
+import MyProfile from '../Pages/Dashboard/MyProfile';
+import MyProducts from '../Pages/Dashboard/MyProducts';
+import OverView from '../Pages/Dashboard/OverView';
 
 export const router = createBrowserRouter([
     {
@@ -42,4 +46,28 @@ export const router = createBrowserRouter([
            }
         ]
     },
+    {
+        path: "/dashboard",
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+        children: [
+            {
+                path: "/dashboard/overview",
+                index: true,
+                Component: OverView,
+            },
+            {
+                path: "/dashboard/my-products",
+                element: <PrivateRoute><MyProducts></MyProducts></PrivateRoute>
+            },
+            {
+                path: "/dashboard/my-profile",
+                element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute>
+            },
+            {
+                path: "/dashboard/add-product",
+                element: <PrivateRoute><AddProduct></AddProduct></PrivateRoute>
+            }
+
+        ]
+    }
 ]);

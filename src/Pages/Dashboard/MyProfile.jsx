@@ -1,40 +1,17 @@
-import React, { useState } from 'react';
+import React, { use } from 'react';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useAuth } from '@/context/AuthContext';
 import Swal from 'sweetalert2';
+import { AuthContext } from '../../Context/AuthContext';
 
 export default function MyProfile() {
-  const { user } = useAuth();
-  const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+  const { user } = use(AuthContext);
 
-  const handlePayment = (e) => {
-    e.preventDefault();
-    setIsPaymentOpen(false);
-    Swal.fire({
-      title: 'Payment Successful!',
-      text: 'Your membership has been activated.',
-      icon: 'success',
-      confirmButtonText: 'Great!',
-    });
-  };
-
-  if (!user) return null;
+console.log(user)
 
   return (
     <div className="space-y-6">
@@ -42,35 +19,27 @@ export default function MyProfile() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Profile Information</CardTitle>
+          <CardTitle><span className="relative after:content-[''] after:block after:w-1/8 after:h-[2px] after:mt-1 after:bg-indigo-500">
+  Profile Information
+</span>
+</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center gap-6">
             <img
-              src={user.image}
-              alt={user.name}
+              src={user?.photoURL}
               className="w-24 h-24 rounded-full object-cover"
             />
             <div className="space-y-2">
               <h2 className="text-2xl font-semibold text-foreground">
-                {user.name}
+                {user.displayName}
               </h2>
               <p className="text-muted-foreground">{user.email}</p>
-              <Badge
-                variant={
-                  user.role === 'admin'
-                    ? 'default'
-                    : user.role === 'moderator'
-                    ? 'secondary'
-                    : 'outline'
-                }
-              >
-                {user.role.toUpperCase()}
-              </Badge>
+             
             </div>
           </div>
 
-          <div className="border-t pt-6">
+          {/* <div className="border-t pt-6">
             <h3 className="text-lg font-semibold mb-4">Membership Status</h3>
 
             {user.isSubscribed ? (
@@ -126,7 +95,7 @@ export default function MyProfile() {
                 </Dialog>
               </div>
             )}
-          </div>
+          </div> */}
         </CardContent>
       </Card>
     </div>
