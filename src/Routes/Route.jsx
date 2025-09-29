@@ -12,6 +12,7 @@ import { Dashboard } from '../Layouts/Dashboard';
 import MyProfile from '../Pages/Dashboard/MyProfile';
 import MyProducts from '../Pages/Dashboard/MyProducts';
 import OverView from '../Pages/Dashboard/OverView';
+import UpdateProduct from '../Pages/Dashboard/UpdateProduct';
 
 export const router = createBrowserRouter([
     {
@@ -58,6 +59,11 @@ export const router = createBrowserRouter([
             {
                 path: "/dashboard/my-products",
                 element: <PrivateRoute><MyProducts></MyProducts></PrivateRoute>
+            },
+            {
+                path: "/dashboard/my-products/update/:id",
+                element:<PrivateRoute><UpdateProduct></UpdateProduct></PrivateRoute>,
+                loader: ({params}) => fetch(`https://app-orbit-server-zeta.vercel.app/products/${params.id}`)
             },
             {
                 path: "/dashboard/my-profile",

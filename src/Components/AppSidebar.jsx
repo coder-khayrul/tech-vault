@@ -1,5 +1,5 @@
-import React, { use } from 'react';
-import { Link, NavLink, useLocation } from 'react-router';
+import React from 'react';
+import { Link, NavLink } from 'react-router';
 
 import {
     Sidebar,

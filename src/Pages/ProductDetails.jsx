@@ -35,9 +35,6 @@ const ProductDetails = () => {
 
     }, [product._id]);
 
-    console.log("Updated Reviews:", reviews);
-
-
 
     const handleVoteCount = () => {
         if (product.ownerEmail !== user.email) {
@@ -64,32 +61,44 @@ const ProductDetails = () => {
         }
     };
 
-
-
-
-        const handleReport = async (productId) => {
-            try {
-                const response = await axios.patch(`https://app-orbit-server-zeta.vercel.app/products/report/${productId}`, {
-                    reported: true,
-                    reportTimestamp: new Date().toISOString()
-                });
-
+    const {ownerEmail,reported} = product
+    const handleReport = async (productId) => {
+          if (ownerEmail !== user.email) {
+        try {
+            const response = await axios.patch(`https://app-orbit-server-zeta.vercel.app/products/report/${productId}`, {
+                reported: true,
+                reportTimestamp: new Date().toISOString()
+            });
                 if (response.data.modifiedCount > 0) {
-                    Swal.fire({
-                        title: "Report submitted",
-                        text: "Thank you for reporting. We'll review this product shortly.",
-                        icon: "success"
-                    });
-                }
-            } catch (error) {
-                console.error("Error reporting product:", error);
                 Swal.fire({
                     title: "Report submitted",
-                    text: "Reporting Error!!",
-                    icon: "error"
+                    text: "Thank you for reporting. We'll review this product shortly.",
+                    icon: "success"
+                });
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Already Reported",
+                    text: response.data.message
                 });
             }
-        };
+
+        } catch (error) {
+            console.error("Error reporting product:", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Reporting Error!!",
+                icon: "error"
+            });
+        }
+    }else{
+        Swal.fire({
+                title: "Error!",
+                text: "You can't be able to report your product!!",
+                icon: "error"
+            });
+    }
+    };
 
 
     const onSubmit = (data) => {
@@ -154,9 +163,9 @@ const ProductDetails = () => {
                                 <span className="font-semibold">{product.upvotes}</span>
                             </Button>
 
-                            <Button variant="outline" onClick={() => handleReport(product._id)}className="flex items-center gap-2 bg-indigo-200 text-indigo-950">
+                            <Button variant="outline" disabled={reported}  onClick={() => handleReport(product._id)} className={`flex items-center gap-2 bg-indigo-200  ${reported ? "text-red-600" : "text-indigo-950"}`} >
                                 <Flag className="w-4 h-4" />
-                                Report
+                                {reported ? "Reported" : "Report"}
                             </Button>
                         </div>
 
