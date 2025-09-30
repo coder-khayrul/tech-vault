@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
                 setUser(...auth.currentUser,...updatedData)
             }
         } 
-
+        
     const userInfo = {
         user,
         setUser,

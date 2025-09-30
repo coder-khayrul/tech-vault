@@ -46,10 +46,10 @@ const TrandingProduct = () => {
             <CarouselContent className="-ml-2 md:-ml-4 py-12">
               {products.map((product) => (
                 <CarouselItem
-                  key={product.id}
+                  key={product._id}
                   className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
                 >
-                  <ProductCard product={product}/>
+                  <ProductCard key={product._id} product={product}/>
                 </CarouselItem>
               ))}
             </CarouselContent>

@@ -22,39 +22,39 @@ const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const [voteCount, setVoteCount] = useState(upvotes ? parseInt(upvotes) : 0);
 
-  const handleVoteCount = () => {
+ const handleVoteCount = () => {
+  if (!user) {
+    navigate('/login');
+    return;
+  }
 
-    if (ownerEmail !== user.email) {
-      axios.patch(`https://app-orbit-server-zeta.vercel.app/products/${_id}`, {
-        userEmail: user.email
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => {
-          if (res.data.modifiedCount) {
-            const newCount = voteCount + 1;
-            setVoteCount(newCount);
-          }
-        })
-        .catch(error => {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: `${error.response?.data?.message}`,
-          });
-        });
+  if (ownerEmail === user.email) {
+    Swal.fire({
+      icon: "info",
+      title: "Oops!",
+      text: "You cannot vote for your own product.",
+    });
+    return;
+  }
 
-
-    } else {
-      navigate('/login');
+  axios.patch(`https://app-orbit-server-zeta.vercel.app/products/${_id}`, {
+    userEmail: user.email
+  }, {
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(res => {
+    if (res.data.modifiedCount) {
+      setVoteCount(voteCount + 1);
     }
-  };
-
-
-
-
+  })
+  .catch(error => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: `${error.response?.data?.message}`,
+    });
+  });
+};
 
 
   return (
