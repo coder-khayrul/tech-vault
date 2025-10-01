@@ -1,4 +1,5 @@
 import React, { use } from 'react';
+import { MdVerified } from "react-icons/md";
 import {
   Card,
   CardContent,
@@ -7,11 +8,21 @@ import {
 } from '@/components/ui/card';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../Context/AuthContext';
+import { useState } from 'react';
+import { motion } from "framer-motion";
+import { useNavigate } from 'react-router';
+
 
 export default function MyProfile() {
   const { user } = use(AuthContext);
+  const [isVerified, setIsVerified] = useState(false);
+  const navigate = useNavigate();
 
-console.log(user)
+  const handleSubscribe = () => {
+    setIsVerified((prev => setIsVerified(!prev)))
+    navigate("/dashboard/payment/subscription");
+  }
+
 
   return (
     <div className="space-y-6">
@@ -20,24 +31,42 @@ console.log(user)
       <Card>
         <CardHeader>
           <CardTitle><span className="relative after:content-[''] after:block after:w-1/8 after:h-[2px] after:mt-1 after:bg-indigo-500">
-  Profile Information
-</span>
-</CardTitle>
+            Profile Information
+          </span>
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="flex items-center gap-6">
-            <img
-              src={user?.photoURL}
-              className="w-24 h-24 rounded-full object-cover"
-            />
-            <div className="space-y-2">
-              <h2 className="text-2xl font-semibold text-foreground">
-                {user.displayName}
-              </h2>
-              <p className="text-muted-foreground">{user.email}</p>
-             
+          <div className='flex items-start gap-5'>
+            <div className="flex items-center gap-6">
+              <img
+                src={user?.photoURL}
+                className="w-24 h-24 rounded-full object-cover"
+              />
+              <div className="space-y-2">
+                <h2 className="text-2xl font-semibold text-foreground">
+                  {user.displayName}
+                </h2>
+                <p className="text-muted-foreground">{user.email}</p>
+
+              </div>
             </div>
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4"
+              animate={{ y: [0, -10, 0] }} 
+              transition={{
+                duration: 2, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+            >
+              <div onClick={handleSubscribe} className={`flex items-center gap-2 px-5 py-3 rounded-[50px] border-1 cursor-pointer border-sky-400 ${isVerified ? "bg-sky-100" : "bg-white"} `}>
+                <b>{isVerified ? "Subscribed " : "Subscribe Now"}</b>
+                <MdVerified className='text-sky-500' size={23} />
+              </div>
+            </motion.div>
+
           </div>
+
 
           {/* <div className="border-t pt-6">
             <h3 className="text-lg font-semibold mb-4">Membership Status</h3>

@@ -13,6 +13,7 @@ import MyProfile from '../Pages/Dashboard/MyProfile';
 import MyProducts from '../Pages/Dashboard/MyProducts';
 import OverView from '../Pages/Dashboard/OverView';
 import UpdateProduct from '../Pages/Dashboard/UpdateProduct';
+import Payment from '../Pages/Dashboard/Payment/Payment';
 
 export const router = createBrowserRouter([
     {
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
             {
                 path: "/dashboard/add-product",
                 element: <PrivateRoute><AddProduct></AddProduct></PrivateRoute>
+            },
+            {
+                path: "/dashboard/payment/subscription",
+                element: <Payment></Payment>
             }
 
         ]
