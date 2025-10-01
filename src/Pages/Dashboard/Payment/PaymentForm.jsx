@@ -1,5 +1,6 @@
 // import React from 'react';
 import React from 'react';
+import { useNavigate } from 'react-router';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -10,6 +11,7 @@ const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const { user } = use(AuthContext)
+  const navigate = useNavigate()
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -44,10 +46,11 @@ const PaymentForm = () => {
         });
         console.log(response)
         Swal.fire({
-        icon: "success",
-        title: "Congratulations🎉! Payment Successfull!",
-        text: `Your payment is completed. Now you have subscription!`,
-      });
+          icon: "success",
+          title: "Congratulations🎉! Payment Successfull!",
+          text: `Your payment is completed. Now you have subscription!`,
+        });
+        navigate("/dashboard/my-products")
       } catch (error) {
         console.error(error.response?.data || error.message);
       }

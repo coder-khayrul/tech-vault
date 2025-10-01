@@ -8,18 +8,31 @@ import {
 } from '@/components/ui/card';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../Context/AuthContext';
-import { useState } from 'react';
+ import { useState } from 'react';
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router';
+ import { useEffect } from 'react';
+ import axios from 'axios';
 
 
 export default function MyProfile() {
   const { user } = use(AuthContext);
-  const [isVerified, setIsVerified] = useState(false);
   const navigate = useNavigate();
+ const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    if (user?.email) {
+      axios.get(`https://app-orbit-server-zeta.vercel.app/api/user/${user.email}`)
+        .then((res) => {
+          console.log(res.data);
+          setProfile(res.data)
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [user]);
+
 
   const handleSubscribe = () => {
-    setIsVerified((prev => setIsVerified(!prev)))
     navigate("/dashboard/payment/subscription");
   }
 
@@ -52,15 +65,15 @@ export default function MyProfile() {
             </div>
             <motion.div
               className="flex flex-col sm:flex-row gap-4"
-              animate={{ y: [0, -10, 0] }} 
+              animate={{ y: [0, -10, 0] }}
               transition={{
-                duration: 2, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
               }}
             >
-              <div onClick={handleSubscribe} className={`flex items-center gap-2 px-5 py-3 rounded-[50px] border-1 cursor-pointer border-sky-400 ${isVerified ? "bg-sky-100" : "bg-white"} `}>
-                <b>{isVerified ? "Subscribed " : "Subscribe Now"}</b>
+              <div onClick={handleSubscribe} className={`flex items-center gap-2 px-5 py-3 rounded-[50px] border-1 cursor-pointer border-sky-400 ${profile ? "bg-sky-100" : "bg-white"} `}>
+                <b>{profile ? "Subscribed " : "Subscribe Now"}</b>
                 <MdVerified className='text-sky-500' size={23} />
               </div>
             </motion.div>
