@@ -10,11 +10,13 @@ import {
     SidebarMenu,
     useSidebar,
 } from '@/components/ui/sidebar';
+import { use } from 'react';
+import { AuthContext } from '../Context/AuthContext';
 
 export function AppSidebar() {
     const sidebar = useSidebar();
     const collapsed = sidebar?.state === 'collapsed';
-
+    const {userInfo} = use(AuthContext)
 
 
 
@@ -27,7 +29,24 @@ export function AppSidebar() {
                     </Link>
                 </div>
                 <SidebarGroupContent>
-                    <SidebarMenu className={"px-4"}>
+                    {
+                        userInfo.role==="admin" ?
+                        <SidebarMenu className={"px-4"}>
+                        <NavLink to={"/dashboard/overview"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                            Overview
+                        </NavLink >
+                        <NavLink to={"/dashboard/my-profile"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                            Statistics
+                        </NavLink >
+                        <NavLink to={"/dashboard/add-product"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                            Manage Users
+                        </NavLink>
+                        <NavLink to={"/dashboard/my-products"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                            Manage Coupons
+                        </NavLink>
+
+                    </SidebarMenu>
+                    : <SidebarMenu className={"px-4"}>
                         <NavLink to={"/dashboard/overview"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
                             Overview
                         </NavLink >
@@ -42,6 +61,8 @@ export function AppSidebar() {
                         </NavLink>
 
                     </SidebarMenu>
+                    }
+                    
                 </SidebarGroupContent>
             </SidebarContent>
         </Sidebar>
