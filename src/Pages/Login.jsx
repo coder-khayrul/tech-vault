@@ -14,7 +14,6 @@ const Login = () => {
   const { register, handleSubmit } = useForm()
 
   const onSubmit = (data) => {
-    console.log(data)
     const email = data.email;
     const password = data.password;
 
@@ -27,15 +26,15 @@ const Login = () => {
   }
 
 
-  const handleSignInWithGoogle = () => {
-    setError("")
-    signInWithGoogle()
-      .then(result => {
-        setUser(result.user)
-        navigate(location?.state || "/")
-      })
-      .catch(error => setError(error.message))
-  }
+ const handleSignInWithGoogle = () => {
+  setError("");
+  signInWithGoogle()
+    .then(result => {
+      setUser(result.user);
+      navigate(location?.state || "/");
+    })
+    .catch(error => setError(error.message));
+};
 
 
   return (
@@ -79,7 +78,7 @@ const Login = () => {
         </button>
         <div className="text-center text-gray-400 my-4">or</div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          
+
           <div>
             <label className="block text-sm text-gray-700">Email</label>
             <input
