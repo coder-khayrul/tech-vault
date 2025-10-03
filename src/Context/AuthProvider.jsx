@@ -14,24 +14,27 @@ import { auth } from '../Firebase/firebase.init';
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loader, setLoader] = useState(true);
-  const [userInfo,setUserinfo] = useState(null);
-  
+  const [userInfo, setUserinfo] = useState(null);
+
   const signUpWithEmailPass = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
-        setUser(currentUser)
+      setUser(currentUser)
       setLoader(true);
       if (currentUser) {
         try {
 
-         
+
           const jwtRes = await fetch("https://app-orbit-server-zeta.vercel.app/jwt", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: currentUser.email }),
+            body: JSON.stringify({
+              email: currentUser.email,
+              name: currentUser.displayName || "User",
+            }),
           });
           const jwtData = await jwtRes.json();
           console.log(jwtData)
@@ -45,7 +48,7 @@ const AuthProvider = ({ children }) => {
           });
           const profileData = await profileRes.json();
 
-          setUserinfo(profileData); 
+          setUserinfo(profileData);
         } catch (err) {
           console.error("Auth error:", err);
         }

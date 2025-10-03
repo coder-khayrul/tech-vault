@@ -27,7 +27,7 @@ import { AuthContext } from '../Context/AuthContext';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { user, userSignOut } = use(AuthContext)
+    const { user, userSignOut,userInfo } = use(AuthContext)
     const navigate = useNavigate()
     const handleSignOut = () => {
         userSignOut()
@@ -113,7 +113,7 @@ const Header = () => {
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator className="bg-gray-200" />
                                     <DropdownMenuItem asChild>
-                                        <Link to="/dashboard/overview" className="flex items-center text-black hover:bg-gray-100">
+                                        <Link to={`/dashboard/${userInfo?.role==="admin" ? "statistics":userInfo?.role==="moderator"?"product-review-queue": "my-profile"}`} className="flex items-center text-black hover:bg-gray-100">
                                             <MdDashboard className="mr-2 h-4 w-4" />
                                             Dashboard
                                         </Link>

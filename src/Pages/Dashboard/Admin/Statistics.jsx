@@ -9,8 +9,13 @@ const Statistics = () => {
   const [reviews, setReviews] = useState([]); // if you have a reviewCollection
 
   useEffect(() => {
-    // Fetch all data (replace endpoints with your actual API)
-    fetch("https://app-orbit-server-zeta.vercel.app/users")
+     const token = localStorage.getItem("access-token");
+    fetch("https://app-orbit-server-zeta.vercel.app/users", {
+        headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+    })
       .then((res) => res.json())
       .then((data) => setUsers(data));
 
@@ -23,13 +28,13 @@ const Statistics = () => {
       .then((data) => setReviews(data));
   }, []);
 
-  // Calculations
+
   const totalUsers = users.length;
   const totalProducts = products.length;
   const totalUpvotes = products.reduce((acc, p) => acc + (p.upvotes || 0), 0);
   const reportedProducts = products.filter((p) => p.reported).length;
 
-  // Product status distribution (example: accepted vs pending vs all)
+ 
   const acceptedProducts = products.filter((p) => p.status === "accepted").length;
   const pendingProducts = products.filter((p) => p.status === "pending").length;
 

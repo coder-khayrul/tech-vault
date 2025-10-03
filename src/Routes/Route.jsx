@@ -18,6 +18,8 @@ import Unauthorized from '../Pages/Unauthorized';
 import Statistics from '../Pages/Dashboard/Admin/Statistics';
 import ManageUsers from '../Pages/Dashboard/Admin/ManageUsers';
 import ManageCoupons from '../Pages/Dashboard/Admin/ManageCoupons';
+import ProductReview from '../Pages/Dashboard/Moderator/ProductReview';
+import ReportedContents from '../Pages/Dashboard/Moderator/ReportedContents';
 
 export const router = createBrowserRouter([
     {
@@ -61,9 +63,13 @@ export const router = createBrowserRouter([
         element: <PrivateRoute allowedRoles={["user", "moderator", "admin"]}><Dashboard></Dashboard></PrivateRoute>,
         children: [
             {
-                path: "/dashboard/overview",
-                index: true,
-                element: <PrivateRoute allowedRoles={["user", "moderator", "admin"]}><OverView></OverView></PrivateRoute>,
+                path: "/dashboard/product-review-queue",
+                
+                element: <PrivateRoute allowedRoles={["moderator", "admin"]}><ProductReview></ProductReview></PrivateRoute>,
+            },
+            {
+                path: "/dashboard/reported-contents",
+                element: <PrivateRoute allowedRoles={["moderator", "admin"]}><ReportedContents></ReportedContents></PrivateRoute>,
             },
             {
                 path: "/dashboard/my-products/update/:id",

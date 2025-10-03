@@ -16,7 +16,7 @@ import { AuthContext } from '../Context/AuthContext';
 export function AppSidebar() {
     const sidebar = useSidebar();
     const collapsed = sidebar?.state === 'collapsed';
-    const {userInfo} = use(AuthContext)
+    const { userInfo } = use(AuthContext)
 
 
 
@@ -30,39 +30,43 @@ export function AppSidebar() {
                 </div>
                 <SidebarGroupContent>
                     {
-                        userInfo.role==="admin" ?
-                        <SidebarMenu className={"px-4"}>
-                        <NavLink to={"/dashboard/overview"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
-                            Overview
-                        </NavLink >
-                        <NavLink to={"/dashboard/statistics"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
-                            Statistics
-                        </NavLink >
-                        <NavLink to={"/dashboard/manage-users"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
-                            Manage Users
-                        </NavLink>
-                        <NavLink to={"/dashboard/manage-coupons"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
-                            Manage Coupons
-                        </NavLink>
- 
-                    </SidebarMenu>
-                    : <SidebarMenu className={"px-4"}>
-                        <NavLink to={"/dashboard/overview"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
-                            Overview
-                        </NavLink >
-                        <NavLink to={"/dashboard/my-profile"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
-                            My Profile
-                        </NavLink >
-                        <NavLink to={"/dashboard/add-product"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
-                            Add Product
-                        </NavLink>
-                        <NavLink to={"/dashboard/my-products"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
-                            My Products
-                        </NavLink>
+                        userInfo.role === "admin" ?
+                            <SidebarMenu className={"px-4"}>
+                                <NavLink to={"/dashboard/statistics"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                                    Statistics
+                                </NavLink >
+                                <NavLink to={"/dashboard/manage-users"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                                    Manage Users
+                                </NavLink>
+                                <NavLink to={"/dashboard/manage-coupons"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                                    Manage Coupons
+                                </NavLink>
 
-                    </SidebarMenu>
+                            </SidebarMenu>
+                            : userInfo.role === "moderator" ?
+                                <SidebarMenu className={"px-4"}>
+                                    <NavLink to={"/dashboard/product-review-queue"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                                        Product Review Queue
+                                    </NavLink >
+                                    <NavLink to={"/dashboard/reported-contents"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                                        Reported Contents
+                                    </NavLink>
+                                </SidebarMenu>
+                                :
+                                <SidebarMenu className={"px-4"}>
+                                    <NavLink to={"/dashboard/my-profile"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                                        My Profile
+                                    </NavLink >
+                                    <NavLink to={"/dashboard/add-product"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                                        Add Product
+                                    </NavLink>
+                                    <NavLink to={"/dashboard/my-products"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                                        My Products
+                                    </NavLink>
+
+                                </SidebarMenu>
                     }
-                    
+
                 </SidebarGroupContent>
             </SidebarContent>
         </Sidebar>

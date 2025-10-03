@@ -21,14 +21,6 @@ export function Dashboard() {
             <div className="flex items-center gap-4">
               <SidebarTrigger />
             </div>
-            {/* <div className="flex items-center gap-4">
-              <img
-                src={user.avatar}
-                alt={user.name}
-                className="w-8 h-8 rounded-full"
-              />
-              <span className="text-sm text-muted-foreground">{user.displayName}</span>
-            </div> */}
             <div className="flex items-center space-x-3 px-3 ">
               <Avatar className="h-10 w-10">
                 <AvatarImage src={user.avatar} alt={user.displayName} />

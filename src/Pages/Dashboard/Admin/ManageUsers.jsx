@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,38 +8,22 @@ import Swal from 'sweetalert2';
 
 
 const ManageUsers = () => {
+    const [users, setUsers] = useState([])
 
-    const mockUsers = [
-        {
-            id: '1',
-            name: 'John Doe',
-            email: 'john@example.com',
-            role: 'user',
-            joinedAt: '2024-01-15'
-        },
-        {
-            id: '2',
-            name: 'Jane Smith',
-            email: 'jane@example.com',
-            role: 'moderator',
-            joinedAt: '2024-01-10'
-        },
-        {
-            id: '3',
-            name: 'Mike Johnson',
-            email: 'mike@example.com',
-            role: 'user',
-            joinedAt: '2024-01-20'
-        },
-        {
-            id: '4',
-            name: 'Sarah Wilson',
-            email: 'sarah@example.com',
-            role: 'user',
-            joinedAt: '2024-01-18'
-        }
-    ];
-    // Promote to Moderator
+    useEffect(() => {
+        const token = localStorage.getItem("access-token");
+
+        fetch("https://app-orbit-server-zeta.vercel.app/users", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        })
+            .then(res => res.json())
+            .then(data => setUsers(data))
+            .catch(err => console.error(err));
+    }, []);
+    console.log(users)
     function handleMakeModerator(userId, userName) {
         Swal.fire({
             title: 'Promote to Moderator?',
@@ -49,14 +33,28 @@ const ManageUsers = () => {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, promote!'
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                Swal.fire('Promoted!', userName + ' is now a moderator.', 'success');
+                const res = await fetch(`https://app-orbit-server-zeta.vercel.app/users/${userId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ role: "moderator" })
+                });
+
+                if (res.ok) {
+
+                    Swal.fire('Promoted!', userName + ' is now a moderator.', 'success');
+                    setUsers(prevUsers =>
+                        prevUsers.map(u =>
+                            u._id === userId ? { ...u, role: "moderator" } : u
+                        )
+                    );
+                }
             }
         });
     }
 
-    // Promote to Admin
+
     function handleMakeAdmin(userId, userName) {
         Swal.fire({
             title: 'Promote to Admin?',
@@ -66,9 +64,22 @@ const ManageUsers = () => {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, promote!'
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                Swal.fire('Promoted!', userName + ' is now an admin.', 'success');
+                const res = await fetch(`https://app-orbit-server-zeta.vercel.app/users/${userId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ role: "admin" })
+                });
+                if (res.ok) {
+
+                    Swal.fire('Promoted!', userName + ' is now a admin.', 'success');
+                    setUsers(prevUsers =>
+                        prevUsers.map(u =>
+                            u._id === userId ? { ...u, role: "admin" } : u
+                        )
+                    );
+                }
             }
         });
     }
@@ -104,12 +115,12 @@ const ManageUsers = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {mockUsers.map((user) => (
+                            {users.map((user) => (
                                 <TableRow key={user.id}>
                                     <TableCell className="font-medium">{user.name}</TableCell>
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{getRoleBadge(user.role)}</TableCell>
-                                    <TableCell>{user.joinedAt}</TableCell>
+                                    <TableCell>{user.last_login}</TableCell>
                                     <TableCell>
                                         <div className="flex gap-2">
                                             {user.role === 'user' && (
@@ -117,7 +128,7 @@ const ManageUsers = () => {
                                                     <Button
                                                         size="sm"
                                                         className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white shadow-sm transition-all"
-                                                        onClick={() => handleMakeModerator(user.id, user.name)}
+                                                        onClick={() => handleMakeModerator(user._id, user.name)}
                                                     >
                                                         <FaUserCog className="h-4 w-4" />
                                                         <span>Make Moderator</span>
@@ -127,7 +138,7 @@ const ManageUsers = () => {
                                                         size="sm"
                                                         className="flex items-center gap-2 border border-indigo-500 text-indigo-600 
                                                         bg-indigo-100 hover:bg-indigo-50 shadow-sm transition-all"
-                                                        onClick={() => handleMakeAdmin(user.id, user.name)}
+                                                        onClick={() => handleMakeAdmin(user._id, user.name)}
                                                     >
                                                         <FaUserShield className="h-4 w-4" />
                                                         <span>Make Admin</span>
@@ -138,14 +149,14 @@ const ManageUsers = () => {
 
                                             {user.role === 'moderator' && (
                                                 <Button
-                                                        size="sm"
-                                                        className="flex items-center gap-2 border border-indigo-500 
+                                                    size="sm"
+                                                    className="flex items-center gap-2 border border-indigo-500 
                                                         bg-indigo-100 text-indigo-600 hover:bg-indigo-50 shadow-sm transition-all"
-                                                        onClick={() => handleMakeAdmin(user.id, user.name)}
-                                                    >
-                                                        <FaUserShield className="h-4 w-4" />
-                                                        <span>Make Admin</span>
-                                                    </Button>
+                                                    onClick={() => handleMakeAdmin(user._id, user.name)}
+                                                >
+                                                    <FaUserShield className="h-4 w-4" />
+                                                    <span>Make Admin</span>
+                                                </Button>
                                             )}
 
                                             {user.role === 'admin' && (
