@@ -99,7 +99,7 @@ const AddProduct = () => {
             }
             ProductData.tags = ProductData.tags.split(",").map(tag => tag.trim())
             ProductData.upvotes = 0;
-            ProductData.status = 'accepted';
+            ProductData.status = 'pending';
             ProductData.isFeatured = false;
             ProductData.timestamp = new Date().toISOString();
 
