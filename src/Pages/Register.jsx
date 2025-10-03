@@ -92,7 +92,7 @@ const Register = () => {
                                     <div className="mt-4">
                                         <label className="block text-white">Password</label>
                                         <input type="password"
-                                            {...register("password", { pattern: /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/, required: true })}
+                                            {...register("password", {required: true })}
                                             aria-invalid={errors.password ? "true" : "false"}
 
                                             name="password"
