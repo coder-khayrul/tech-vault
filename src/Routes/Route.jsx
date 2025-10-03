@@ -15,6 +15,9 @@ import OverView from '../Pages/Dashboard/OverView';
 import UpdateProduct from '../Pages/Dashboard/UpdateProduct';
 import Payment from '../Pages/Dashboard/Payment/Payment';
 import Unauthorized from '../Pages/Unauthorized';
+import Statistics from '../Pages/Dashboard/Admin/Statistics';
+import ManageUsers from '../Pages/Dashboard/Admin/ManageUsers';
+import ManageCoupons from '../Pages/Dashboard/Admin/ManageCoupons';
 
 export const router = createBrowserRouter([
     {
@@ -88,10 +91,26 @@ export const router = createBrowserRouter([
                 )
             },
             {
-                path: "/dashboard/admin",
+                path: "/dashboard/statistics",
                 element: (
                     <PrivateRoute allowedRoles={["admin"]}>
-                        <h1>Admin Panel</h1>
+                        <Statistics></Statistics>
+                    </PrivateRoute>
+                )
+            },
+             {
+                path: "/dashboard/manage-users",
+                element: (
+                    <PrivateRoute allowedRoles={["admin"]}>
+                        <ManageUsers></ManageUsers>
+                    </PrivateRoute>
+                )
+            },
+             {
+                path: "/dashboard/manage-coupons",
+                element: (
+                    <PrivateRoute allowedRoles={["admin"]}>
+                        <ManageCoupons></ManageCoupons>
                     </PrivateRoute>
                 )
             },

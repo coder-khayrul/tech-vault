@@ -35,16 +35,16 @@ export function AppSidebar() {
                         <NavLink to={"/dashboard/overview"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
                             Overview
                         </NavLink >
-                        <NavLink to={"/dashboard/my-profile"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                        <NavLink to={"/dashboard/statistics"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
                             Statistics
                         </NavLink >
-                        <NavLink to={"/dashboard/add-product"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                        <NavLink to={"/dashboard/manage-users"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
                             Manage Users
                         </NavLink>
-                        <NavLink to={"/dashboard/my-products"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
+                        <NavLink to={"/dashboard/manage-coupons"} className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
                             Manage Coupons
                         </NavLink>
-
+ 
                     </SidebarMenu>
                     : <SidebarMenu className={"px-4"}>
                         <NavLink to={"/dashboard/overview"}  className={"p-2 hover:bg-gray-100 duration-500 rounded-md border-b border-b-gray-300"}>
