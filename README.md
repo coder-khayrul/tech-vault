@@ -1,10 +1,9 @@
-# App-Orbit
+# Tech-vault
 
-**Category:** assignment12_category_012  
-**Live URL:** [Add your live URL here]
+**Live URL:** [[Add your live URL here](https://tech-vault-web.netlify.app/)]
 
 ## 🎯 Project Purpose
-App-Orbit is a modern tech platform where users can discover, share, and interact with tech products such as Web Apps, AI tools, Software, Games, and Mobile Apps. It is inspired by platforms like [Product Hunt](https://producthunt.com) and allows users to submit products, upvote or downvote them, post reviews, and access premium features through subscription payments.  
+Tech-vault is a modern tech platform where users can discover, share, and interact with tech products such as Web Apps, AI tools, Software, Games, and Mobile Apps. It is inspired by platforms like [Product Hunt](https://producthunt.com) and allows users to submit products, upvote or downvote them, post reviews, and access premium features through subscription payments.  
 
 This project is designed for Junior MERN Stack Developers to showcase full-stack skills using **MongoDB, Express.js, React.js, Node.js, Firebase**, and other modern tools.
 
@@ -56,21 +55,15 @@ This project is designed for Junior MERN Stack Developers to showcase full-stack
 
 ### Frontend
 - `react`, `react-dom`, `react-router`
-- `tailwindcss`, `@tailwindcss/vite`, `tailwind-merge`
+- `tailwindcss`
 - `clsx`, `class-variance-authority`
 - `react-hook-form`, `react-helmet`
 - `react-icons`, `lucide-react`
-- `swiper`, `embla-carousel-react`, `embla-carousel-autoplay`
+- `swiper`
 - `sweetalert2`, `date-fns`
 - `@stripe/react-stripe-js`, `@stripe/stripe-js`
-- `@radix-ui/react-avatar`, `@radix-ui/react-dialog`, `@radix-ui/react-dropdown-menu`, `@radix-ui/react-label`, `@radix-ui/react-navigation-menu`, `@radix-ui/react-separator`, `@radix-ui/react-slot`, `@radix-ui/react-tooltip`
 - `motion`, `axios`
 
 ### Backend
 - `express`, `cors`, `mongodb`, `jsonwebtoken`, `stripe`, `envdot`
-
-## ⚙️ Getting Started
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
+[Backend Repo Link](https://github.com/coder-khayrul/tech-vault-server)
