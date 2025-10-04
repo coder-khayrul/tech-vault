@@ -1,12 +1,76 @@
-# React + Vite
+# App-Orbit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Category:** assignment12_category_012  
+**Live URL:** [Add your live URL here]
 
-Currently, two official plugins are available:
+## 🎯 Project Purpose
+App-Orbit is a modern tech platform where users can discover, share, and interact with tech products such as Web Apps, AI tools, Software, Games, and Mobile Apps. It is inspired by platforms like [Product Hunt](https://producthunt.com) and allows users to submit products, upvote or downvote them, post reviews, and access premium features through subscription payments.  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is designed for Junior MERN Stack Developers to showcase full-stack skills using **MongoDB, Express.js, React.js, Node.js, Firebase**, and other modern tools.
 
-## Expanding the ESLint configuration
+## 🏆 Key Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### User Roles
+- **Normal Users**
+  - Browse and view tech products.
+  - Submit new products for review.
+  - Upvote and report products.
+- **Moderators**
+  - Review and approve/reject submitted products.
+  - Handle reported products.
+  - Mark products as featured.
+- **Admins**
+  - Manage user roles.
+  - Monitor site activities through statistics.
+  - Manage coupons.
+
+### Authentication & Authorization
+- JWT-based authentication to secure private routes.
+- Login/Registration with Email & Google Authentication (Firebase).
+- Private route access for dashboard, product management, and admin pages.
+
+### Frontend Features
+- Responsive design with **Tailwind CSS** for mobile, tablet, and desktop.
+- Banner/Slider/Carousel for homepage.
+- Featured & Trending Products sections with dynamic cards.
+- Product Details page with reviews, upvotes, and report functionality.
+- User Dashboard with:
+  - My Profile
+  - Add Product
+  - My Products
+- Moderator Dashboard with:
+  - Product Review Queue
+  - Reported Contents
+- Admin Dashboard with:
+  - Statistics Page (pie chart)
+  - Manage Users
+  - Manage Coupons
+
+### Other Functionalities
+- Search & pagination in products page (6 cards per page).
+- Stripe payment integration for membership/subscription.
+- Coupon management and carousel advertising for promotions.
+- Optional features: down-vote, rising products slider, Framer Motion animations, loading spinners.
+
+## 📦 npm Packages Used
+
+### Frontend
+- `react`, `react-dom`, `react-router`
+- `tailwindcss`, `@tailwindcss/vite`, `tailwind-merge`
+- `clsx`, `class-variance-authority`
+- `react-hook-form`, `react-helmet`
+- `react-icons`, `lucide-react`
+- `swiper`, `embla-carousel-react`, `embla-carousel-autoplay`
+- `sweetalert2`, `date-fns`
+- `@stripe/react-stripe-js`, `@stripe/stripe-js`
+- `@radix-ui/react-avatar`, `@radix-ui/react-dialog`, `@radix-ui/react-dropdown-menu`, `@radix-ui/react-label`, `@radix-ui/react-navigation-menu`, `@radix-ui/react-separator`, `@radix-ui/react-slot`, `@radix-ui/react-tooltip`
+- `motion`, `axios`
+
+### Backend
+- `express`, `cors`, `mongodb`, `jsonwebtoken`, `stripe`, `envdot`
+
+## ⚙️ Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
