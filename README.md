@@ -1,6 +1,6 @@
 # Tech-vault
 
-**Live URL:** [[Add your live URL here](https://tech-vault-web.netlify.app/)]
+**Live URL:** [https://tech-vault-web.netlify.app/]
 
 ## 🎯 Project Purpose
 Tech-vault is a modern tech platform where users can discover, share, and interact with tech products such as Web Apps, AI tools, Software, Games, and Mobile Apps. It is inspired by platforms like [Product Hunt](https://producthunt.com) and allows users to submit products, upvote or downvote them, post reviews, and access premium features through subscription payments.  
